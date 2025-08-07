@@ -1,5 +1,16 @@
 package com.gestion.gt.gestiongt.repository;
 
-public class InscripcionesRepository {
+import com.gestion.gt.gestiongt.entities.Inscripciones;
+import com.gestion.gt.gestiongt.entities.Estudiantes;
+import com.gestion.gt.gestiongt.entities.Asignaciones;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
+public interface InscripcionesRepository extends JpaRepository<Inscripciones, Integer> {
+    List<Inscripciones> findByEstudiante(Estudiantes estudiante);
+    List<Inscripciones> findByAsignacion(Asignaciones asignacion);
+    boolean existsByEstudianteAndAsignacion(Estudiantes estudiante, Asignaciones asignacion);
 }

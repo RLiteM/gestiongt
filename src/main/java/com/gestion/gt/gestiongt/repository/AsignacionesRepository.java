@@ -1,5 +1,16 @@
 package com.gestion.gt.gestiongt.repository;
 
-public class AsignacionesRepository {
+import com.gestion.gt.gestiongt.entities.Asignaciones;
+import com.gestion.gt.gestiongt.entities.Cursos;
+import com.gestion.gt.gestiongt.entities.Profesores;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
+public interface AsignacionesRepository extends JpaRepository<Asignaciones, Integer> {
+    List<Asignaciones> findByProfesor(Profesores profesor);
+    List<Asignaciones> findByCurso(Cursos curso);
+    boolean existsByProfesorAndCurso(Profesores profesor, Cursos curso); // útil para validar duplicados
 }
