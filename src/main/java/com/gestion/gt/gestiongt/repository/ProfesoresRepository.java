@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProfesoresRepository extends JpaRepository<Profesores, Integer> {
-    // Puedes agregar métodos personalizados si es necesario
 }
