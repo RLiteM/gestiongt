@@ -1,11 +1,13 @@
 package com.gestion.gt.gestiongt.service;
 
+import com.gestion.gt.gestiongt.dto.InscripcionDTO;
 import com.gestion.gt.gestiongt.entities.Inscripciones;
 import com.gestion.gt.gestiongt.repository.InscripcionesRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InscripcionesService {
@@ -16,12 +18,31 @@ public class InscripcionesService {
         this.repository = repository;
     }
 
-    public List<Inscripciones> getAll() {
-        return repository.findAll();
+    public List<InscripcionDTO> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Inscripciones> getById(Integer id) {
-        return repository.findById(id);
+    public Optional<InscripcionDTO> getById(Integer id) {
+        return repository.findById(id).map(this::convertToDTO);
+    }
+
+    // Filtro por estudiante
+    public List<InscripcionDTO> findByEstudianteId(Integer estudianteId) {
+        return repository.findByEstudianteId(estudianteId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Filtro por asignación
+    public List<InscripcionDTO> findByAsignacionId(Integer asignacionId) {
+        return repository.findByAsignacionId(asignacionId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     public Inscripciones save(Inscripciones inscripcion) {
@@ -30,5 +51,16 @@ public class InscripcionesService {
 
     public void delete(Integer id) {
         repository.deleteById(id);
+    }
+
+    private InscripcionDTO convertToDTO(Inscripciones inscripcion) {
+        return new InscripcionDTO(
+                inscripcion.getId(),
+                inscripcion.getEstudiante().getId(),
+                inscripcion.getEstudiante().getNombre() + " " + inscripcion.getEstudiante().getApellido(),
+                inscripcion.getAsignacion().getId(),
+                inscripcion.getAsignacion().getCurso().getNombre(),
+                inscripcion.getAsignacion().getProfesor().getNombre() + " " + inscripcion.getAsignacion().getProfesor().getApellido()
+        );
     }
 }

@@ -4,7 +4,10 @@ import com.gestion.gt.gestiongt.entities.Cursos;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CursosRepository extends JpaRepository<Cursos, Integer> {
-    // Ejemplo: Optional<Cursos> findByNombre(String nombre);
+    // Buscar cursos por nombre
+    List<Cursos> findByNombreContainingIgnoreCase(String nombre);
 }

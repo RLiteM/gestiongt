@@ -1,5 +1,6 @@
 package com.gestion.gt.gestiongt.controller;
 
+import com.gestion.gt.gestiongt.dto.InscripcionDTO;
 import com.gestion.gt.gestiongt.entities.Inscripciones;
 import com.gestion.gt.gestiongt.service.InscripcionesService;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,15 @@ public class InscripcionesController {
     }
 
     @GetMapping
-    public List<Inscripciones> getAll() {
+    public List<InscripcionDTO> getAll(@RequestParam(required = false) Integer estudianteId) {
+        if (estudianteId != null) {
+            return service.findByEstudianteId(estudianteId);
+        }
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Inscripciones> getById(@PathVariable Integer id) {
+    public ResponseEntity<InscripcionDTO> getById(@PathVariable Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

@@ -1,5 +1,6 @@
 package com.gestion.gt.gestiongt.controller;
 
+import com.gestion.gt.gestiongt.dto.EstudianteDTO;
 import com.gestion.gt.gestiongt.entities.Estudiantes;
 import com.gestion.gt.gestiongt.service.EstudiantesService;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,15 @@ public class EstudiantesController {
     }
 
     @GetMapping
-    public List<Estudiantes> getAll() {
+    public List<EstudianteDTO> getAll(@RequestParam(required = false) String apellido) {
+        if (apellido != null) {
+            return service.findByApellido(apellido);
+        }
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Estudiantes> getById(@PathVariable Integer id) {
+    public ResponseEntity<EstudianteDTO> getById(@PathVariable Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

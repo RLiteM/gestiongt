@@ -12,5 +12,10 @@ import java.util.List;
 public interface AsignacionesRepository extends JpaRepository<Asignaciones, Integer> {
     List<Asignaciones> findByProfesor(Profesores profesor);
     List<Asignaciones> findByCurso(Cursos curso);
-    boolean existsByProfesorAndCurso(Profesores profesor, Cursos curso); // útil para validar duplicados
+
+    // Filtros directos por IDs (opcional)
+    List<Asignaciones> findByProfesorId(Integer profesorId);
+    List<Asignaciones> findByCursoId(Integer cursoId);
+
+    boolean existsByProfesorAndCurso(Profesores profesor, Cursos curso);
 }

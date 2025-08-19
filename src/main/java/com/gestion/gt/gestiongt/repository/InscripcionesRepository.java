@@ -12,5 +12,10 @@ import java.util.List;
 public interface InscripcionesRepository extends JpaRepository<Inscripciones, Integer> {
     List<Inscripciones> findByEstudiante(Estudiantes estudiante);
     List<Inscripciones> findByAsignacion(Asignaciones asignacion);
+
+    // Filtros directos por IDs
+    List<Inscripciones> findByEstudianteId(Integer estudianteId);
+    List<Inscripciones> findByAsignacionId(Integer asignacionId);
+
     boolean existsByEstudianteAndAsignacion(Estudiantes estudiante, Asignaciones asignacion);
 }

@@ -1,10 +1,13 @@
 package com.gestion.gt.gestiongt.service;
 
-import org.springframework.stereotype.Service;
+import com.gestion.gt.gestiongt.dto.CursoDTO;
 import com.gestion.gt.gestiongt.entities.Cursos;
 import com.gestion.gt.gestiongt.repository.CursosRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CursosService {
@@ -14,12 +17,23 @@ public class CursosService {
         this.repository = repository;
     }
 
-    public List<Cursos> getAll() {
-        return repository.findAll();
+    public List<CursoDTO> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Cursos> getById(Integer id) {
-        return repository.findById(id);
+    public Optional<CursoDTO> getById(Integer id) {
+        return repository.findById(id).map(this::convertToDTO);
+    }
+
+    // Filtro por nombre
+    public List<CursoDTO> findByNombre(String nombre) {
+        return repository.findByNombreContainingIgnoreCase(nombre)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     public Cursos save(Cursos curso) {
@@ -30,4 +44,7 @@ public class CursosService {
         repository.deleteById(id);
     }
 
+    private CursoDTO convertToDTO(Cursos curso) {
+        return new CursoDTO(curso.getId(), curso.getNombre());
+    }
 }

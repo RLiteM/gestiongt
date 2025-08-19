@@ -1,5 +1,6 @@
 package com.gestion.gt.gestiongt.controller;
 
+import com.gestion.gt.gestiongt.dto.AsignacionDTO;
 import com.gestion.gt.gestiongt.entities.Asignaciones;
 import com.gestion.gt.gestiongt.service.AsignacionesService;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,15 @@ public class AsignacionesController {
     }
 
     @GetMapping
-    public List<Asignaciones> getAll() {
+    public List<AsignacionDTO> getAll(@RequestParam(required = false) Integer profesorId) {
+        if (profesorId != null) {
+            return service.findByProfesorId(profesorId);
+        }
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Asignaciones> getById(@PathVariable Integer id) {
+    public ResponseEntity<AsignacionDTO> getById(@PathVariable Integer id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
