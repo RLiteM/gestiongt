@@ -53,6 +53,7 @@ public class InscripcionesService {
         repository.deleteById(id);
     }
 
+    // Conversión a DTO incluyendo nota y ciclo
     private InscripcionDTO convertToDTO(Inscripciones inscripcion) {
         return new InscripcionDTO(
                 inscripcion.getId(),
@@ -60,7 +61,9 @@ public class InscripcionesService {
                 inscripcion.getEstudiante().getNombre() + " " + inscripcion.getEstudiante().getApellido(),
                 inscripcion.getAsignacion().getId(),
                 inscripcion.getAsignacion().getCurso().getNombre(),
-                inscripcion.getAsignacion().getProfesor().getNombre() + " " + inscripcion.getAsignacion().getProfesor().getApellido()
+                inscripcion.getAsignacion().getProfesor().getNombre() + " " + inscripcion.getAsignacion().getProfesor().getApellido(),
+                inscripcion.getNota(),
+                inscripcion.getCiclo()
         );
     }
 }
